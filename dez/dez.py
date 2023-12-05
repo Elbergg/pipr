@@ -5,11 +5,13 @@ class Magazine:
         self.alcohol = alcohol * 1000
         self.conservant = conservant * 1000
         self.resources_list = [self.glicerine/1000, self.aloes/1000, self.alcohol/1000, self.conservant/1000]
+        self.costs = {'gel': (100, 350, 600, 50), 'hand_liquid': (30, 0, 720, 50), 'floor_liquid': (5, 0, 800, 50)}
+
     def check_order(self, gel=0, hand_liquid=0, floor_liquid=0):
-        glicerine_cost =  gel*100 + hand_liquid*30 + floor_liquid*5
-        aloes_cost = gel*350
-        alcohol_cost = gel*600 + 720*hand_liquid + floor_liquid*800
-        conservant_cost = (gel+hand_liquid+floor_liquid)*50
+        glicerine_cost =  gel*self.costs.get('gel')[0]+ self.costs.get('hand_liquid')[0]*hand_liquid + floor_liquid*self.costs.get('floor_liquid')[0]
+        aloes_cost = gel*self.costs.get('gel')[1] + self.costs.get('hand_liquid')[1]*hand_liquid + floor_liquid*self.costs.get('floor_liquid')[1]
+        alcohol_cost = gel*self.costs.get('gel')[2] + self.costs.get('hand_liquid')[2]*hand_liquid + floor_liquid*self.costs.get('floor_liquid')[2]
+        conservant_cost = gel*self.costs.get('gel')[3] + self.costs.get('hand_liquid')[3]*hand_liquid + floor_liquid*self.costs.get('floor_liquid')[3]
         if self.glicerine - glicerine_cost < 0:
             raise NotEnoughResourcesError
         if self.aloes - aloes_cost < 0:
