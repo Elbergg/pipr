@@ -4,16 +4,24 @@ from random import randint
 class Dice:
     def __init__(self, walls, rolls):
         if walls/2  == int(walls/2) and walls > 2:
-            self.walls = walls
+            self._walls = walls
         else:
             raise ValueError
         if rolls < 0:
             raise ValueError
-        self.rolls = rolls
+        self._rolls = rolls
 
     def roll(self):
-        self.rolls -= 1
-        return randint(0, self.walls+1)
+        self._rolls -= 1
+        return randint(1, self._walls+1)
+    
+    @property
+    def walls(self):
+        return self._walls
+    
+    @property
+    def rolls(self):
+        return self._rolls
 
 class Hand:
     def __init__(self, dices):
@@ -26,7 +34,7 @@ class Hand:
     def roll_dices(self):
         self.rolls = []
         for dice in self.dices:
-            if dice.rolls > 0:
+            if dice._rolls > 0:
                 self.rolls.append(dice.roll())
         return self.rolls
     
