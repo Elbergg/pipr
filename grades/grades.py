@@ -9,6 +9,13 @@ class Grade:
     def __init__(self, mark, grading_type):
         self.mark = mark
         self.grading_type = grading_type
+        if self.mark < self.grading_type.lowest_mark or self.mark > self.grading_type.highest_mark + 1:
+            raise ValueError
+        if self.grading_type.interval == 0.5 and self.mark/self.grading_type.interval != round(self.mark/self.grading_type.interval):
+            raise ValueError
+        if self.grading_type.interval == 1 and isinstance(self.mark, int) is False:
+            raise ValueError
+
 
     def __lt__(self,other):
         real_value_self = self.mark/(self.grading_type.highest_mark - self.grading_type.lowest_mark)
